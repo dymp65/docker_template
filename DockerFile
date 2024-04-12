@@ -1,0 +1,30 @@
+FROM php:7.4-fpm
+RUN apt-get upgrade && apt-get update
+RUN apt-get install -y tzdata
+ENV TZ=Asia/Makassar
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+RUN install-php-extensions \
+    bcmath \
+    ctype \
+    curl \
+    dom \
+    fileinfo \
+    json \
+    mbstring \
+    openssl \
+    pcre \
+    pdo \
+    pdo_mysql \
+    tokenizer \
+    xml \
+    @composer
+RUN install-php-extensions \
+    gd \
+    imagick \
+    opcache \
+    mongodb \
+    pcntl \
+    redis \
+    zip
+EXPOSE 9000
+CMD [ "php-fpm" ]
